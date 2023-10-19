@@ -1,0 +1,2 @@
+selenium==2.33.0
+requests==2.22.0
