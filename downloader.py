@@ -76,7 +76,7 @@ def main():
     downloader = Downloader()
     with open('names.txt', 'r') as file:
         for name in file:
-            downloader.download_person_images(name, 100)
+            downloader.download_person_images(name[0:-2], 100)
 
 if __name__ == '__main__':
     main()
