@@ -1,5 +1,4 @@
 import time
-import wget
 import os
 
 import requests
@@ -11,6 +10,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 from selenium.webdriver.remote.webelement import WebElement
+
 
 class Downloader:
     def __init__(self) -> None:
@@ -32,7 +32,7 @@ class Downloader:
         return self.waiter.until(EC.presence_of_all_elements_located((By.XPATH, "//div[@role='listitem']")))
     
     def _makedir_if_not_exist(self, dir_name):
-        if not os.path.exists(dir_name):
+        if not(os.path.exists(dir_name)):
             os.makedirs(dir_name)
     
     def _get_images_src(self, person_name, number_of_photos):
@@ -50,10 +50,12 @@ class Downloader:
         return image_links
     
     def download_person_images(self, person_name: str, number_of_photos=150):
+
         download_dir = os.path.join(self.this_dir, 'image_downloads')
         self._makedir_if_not_exist(download_dir)
-        person_dir_name = os.path.join(download_dir, person_name)       
+        person_dir_name = os.path.join(download_dir, person_name) 
         self._makedir_if_not_exist(person_dir_name)
+        
         image_srcs = self._get_images_src(person_name, number_of_photos)
         person_dir_name_images = os.path.join(person_dir_name,'images')
         self._makedir_if_not_exist(person_dir_name_images)
