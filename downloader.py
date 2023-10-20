@@ -54,8 +54,8 @@ class Downloader:
         self._start_search(person_name)
 
         image_links = []
-
-        while len(image_links) <= number_of_photos:
+        start_time = time.time()
+        while len(image_links) <= number_of_photos and (time.time() - start_time < 600):
         
             found_image_containers = self._find_image_containers()
             for found_container in found_image_containers:
