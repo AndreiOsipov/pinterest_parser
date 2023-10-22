@@ -42,14 +42,13 @@ class Downloader:
         makedir_if_not_exist(person_dir_name_images)
     
     def _start_search(self, person_name):
+
         search_bar: WebElement = self.waiter.until(EC.element_to_be_clickable((By.TAG_NAME,'input')))
-        
         #убирает последний введенный запрос из строки ввода(по уму надо делать обертку над search-bar, но похуй)
         for i in range(40):
             search_bar.send_keys(Keys.BACK_SPACE)
-        
         search_bar.send_keys(person_name+'\n')#вводит запрос + начинает поиск
-
+        time.sleep(5000)
     def _get_images_src(self, person_name, number_of_photos):
         self._start_search(person_name)
 
@@ -98,10 +97,10 @@ def main():
     if file_name == '':
         file_name = 'names.txt'
     downloader = Downloader()
-    with open('names.txt', 'r') as file:
+    with open(file_name, 'r') as file:
         for raw_name in file:
             prepared_name = prepare_name(raw_name)
-            downloader.download_person_images(prepared_name)
+            downloader.download_person_images(prepared_name, 180)
 
 if __name__ == '__main__':
     main()
