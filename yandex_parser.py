@@ -75,13 +75,16 @@ class YandexImage:
         self._start_search(query)
         time.sleep(5)
         items_place = self.driver.find_element(By.CLASS_NAME, "serp-list")
+        
         output = list()
-        while len(output) < 100:
+        start_time = time.time()
+        while len(output) < 100 and (time.time() - start_time < 600):
             more_pictures_button = self._find_more_pictures_button()
             if more_pictures_button:
                 more_pictures_button.click()
             try:
-                items = items_place.find_elements(By.CLASS_NAME, "serp-item")
+                items = self.waiter.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "serp-item")))
+                # items = items_place.find_elements(By.CLASS_NAME, "serp-item")
             except AttributeError:
                 return output
             
@@ -112,6 +115,7 @@ class YandexImage:
                 if not(res.url in output): 
                     output.append(res.url)
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            # time.sleep(1)
             print(f'текущая длинна: {len(output)}')
         return output
     
